@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<!--
+  Stylish Beauty Palour — sales demo website (single file, no backend)
+  Assumptions: ladies beauty parlour (from the name "Beauty Palour"); all services are typical offerings, not proven facts.
+  "Open 24 hours" comes from Google Maps — confirm with owner.
+  Made by Qasim for outreach. See notes.md.
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stylish Beauty Palour — Sanghar | Book on WhatsApp</title>
+<meta name="description" content="Stylish Beauty Palour in Sanghar — see our services and book your appointment in one WhatsApp message.">
+<meta name="theme-color" content="#4B3027">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%234B3027'/%3E%3Crect x='7' y='7' width='50' height='50' rx='8' fill='none' stroke='%23D99A9A' stroke-width='2'/%3E%3Ctext x='32' y='42' font-family='Georgia,serif' font-size='26' fill='%23FFF6EE' text-anchor='middle'%3ESB%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,560;9..144,640&family=Manrope:wght@400;500;700&family=Noto+Nastaliq+Urdu:wght@400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --mocha:#4B3027;          /* deep mocha brown */
+    --mocha-deep:#331F17;
+    --mocha-soft:#6B4A3B;
+    --rose:#D99A9A;           /* dusty rose */
+    --rose-deep:#B96A6A;
+    --rose-pale:#F0D9D4;
+    --cream:#FFF6EE;
+    --cream-deep:#F6E8DC;
+    --ink:#2E1B14;
+    --r-pill:999px;
+    --r-soft:18px;
+    --shadow-warm:0 18px 50px -18px rgba(75,48,39,.35);
+    --maxw:1060px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--cream);
+    color:var(--ink);
+    font-family:'Manrope',sans-serif;
+    font-size:17px;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  h1,h2,h3{font-family:'Fraunces',serif;font-weight:560;line-height:1.12;color:var(--mocha)}
+  a{color:inherit}
+  img,svg{display:block;max-width:100%}
+  button{font:inherit;cursor:pointer}
+  :focus-visible{outline:3px solid var(--rose-deep);outline-offset:3px;border-radius:6px}
+
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 22px}
+  .pill{
+    display:inline-flex;align-items:center;gap:10px;justify-content:center;
+    min-height:48px;padding:12px 26px;border-radius:var(--r-pill);
+    background:var(--mocha);color:var(--cream);text-decoration:none;
+    font-weight:700;letter-spacing:.01em;border:none;transition:background .2s,transform .2s;
+  }
+  .pill:hover{background:var(--mocha-deep)}
+  .pill.rose{background:var(--rose-deep);color:#fff}
+  .pill.rose:hover{background:#A45454}
+  .pill.ghost{background:transparent;color:var(--mocha);border:1.5px solid var(--mocha)}
+  .pill.ghost:hover{background:var(--mocha);color:var(--cream)}
+  .pill svg{flex:none}
+
+  /* ribbon */
+  .ribbon{
+    background:var(--mocha-deep);color:var(--rose-pale);
+    text-align:center;font-size:13px;padding:7px 14px;letter-spacing:.04em;
+  }
+
+  /* header */
+  header.site{
+    position:sticky;top:0;z-index:50;
+    background:rgba(255,246,238,.92);backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--rose-pale);
+  }
+  .hd{max-width:var(--maxw);margin:0 auto;padding:12px 22px;display:flex;align-items:center;gap:14px}
+  .lockup{display:flex;align-items:center;gap:12px;text-decoration:none}
+  .lockup .name b{display:block;font-family:'Fraunces',serif;font-size:19px;color:var(--mocha);font-weight:640}
+  .lockup .name span{font-size:12px;letter-spacing:.14em;color:var(--mocha-soft)}
+  .hd .pill{margin-left:auto;padding:10px 20px;min-height:44px;font-size:15px}
+
+  /* monogram */
+  .mono{width:46px;height:46px;flex:none}
+
+  /* hero */
+  .hero{position:relative;overflow:hidden;padding:54px 0 70px}
+  .hero .wrap{display:grid;gap:44px;grid-template-columns:1.1fr .9fr;align-items:center}
+  .hero h1{font-size:clamp(36px,6vw,58px);letter-spacing:-.01em}
+  .hero h1 em{font-style:normal;color:var(--rose-deep)}
+  .urdu{
+    font-family:'Noto Nastaliq Urdu',serif;
+    font-size:21px;line-height:2.2;color:var(--mocha-soft);
+    margin:14px 0 10px;
+  }
+  .hero p.sub{max-width:46ch;color:#5A4238}
+  .ratingrow{display:inline-flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--rose-pale);border-radius:var(--r-pill);padding:8px 18px 8px 10px;margin:20px 0 24px;box-shadow:var(--shadow-warm)}
+  .ratingrow .num{font-family:'Fraunces',serif;font-size:26px;font-weight:640;color:var(--mocha);background:var(--rose-pale);border-radius:var(--r-pill);padding:2px 14px}
+  .stars{color:#C98A2B;font-size:17px;letter-spacing:2px}
+  .ratingrow small{color:var(--mocha-soft);font-size:13px}
+  .ctarow{display:flex;gap:12px;flex-wrap:wrap}
+  .hero-art{position:absolute;inset:auto -120px -160px auto;width:420px;opacity:.16;pointer-events:none}
+
+  /* phone mockup */
+  .phone-zone{display:flex;justify-content:center}
+  .phone{
+    width:290px;background:var(--mocha-deep);border-radius:38px;padding:12px;
+    box-shadow:var(--shadow-warm),inset 0 0 0 2px rgba(217,154,154,.35);
+    cursor:pointer;transition:transform .25s;
+  }
+  .phone:hover{transform:translateY(-4px)}
+  .screen{background:#E9DBD2;border-radius:26px;overflow:hidden;height:470px;display:flex;flex-direction:column}
+  .chatbar{background:var(--mocha);color:var(--cream);padding:10px 14px;display:flex;align-items:center;gap:10px;font-size:13.5px}
+  .chatbar .mono{width:30px;height:30px}
+  .chat{flex:1;padding:14px 12px;display:flex;flex-direction:column;gap:10px;font-size:13.5px;overflow:hidden}
+  .msg{max-width:82%;padding:9px 13px;border-radius:14px;line-height:1.5;opacity:0;transform:translateY(8px)}
+  .msg.in{background:#fff;align-self:flex-start;border-bottom-left-radius:4px;color:var(--ink)}
+  .msg.out{background:#D9F6D9;align-self:flex-end;border-bottom-right-radius:4px;color:#22301F}
+  .msg .t{display:block;font-size:10.5px;opacity:.55;margin-top:3px;text-align:right}
+  .msg.show{opacity:1;transform:none;transition:opacity .4s,transform .4s}
+  .typing{display:none;align-self:flex-start;background:#fff;border-radius:14px;border-bottom-left-radius:4px;padding:11px 14px;gap:5px}
+  .typing.show{display:inline-flex}
+  .typing i{width:7px;height:7px;border-radius:50%;background:#A38B7B;animation:blink 1s infinite}
+  .typing i:nth-child(2){animation-delay:.18s}.typing i:nth-child(3){animation-delay:.36s}
+  @keyframes blink{0%,100%{opacity:.25}50%{opacity:1}}
+  .contactstrip{background:#fff;font-weight:700;text-align:center}
+
+  /* reveal */
+  .rise{opacity:0;transform:translateY(16px)}
+  .rise.in{opacity:1;transform:none;transition:opacity .7s,transform .7s}
+  .d1{transition-delay:.08s}.d2{transition-delay:.2s}.d3{transition-delay:.34s}.d4{transition-delay:.48s}
+
+  /* marquee */
+  .marquee{background:var(--mocha);color:var(--rose-pale);overflow:hidden;padding:14px 0;border-top:2px solid var(--rose-deep);border-bottom:2px solid var(--rose-deep)}
+  .marquee .track{display:flex;gap:0;width:max-content;animation:slide 34s linear infinite}
+  .marquee span{font-family:'Fraunces',serif;font-size:20px;white-space:nowrap;padding:0 22px;position:relative}
+  .marquee span::after{content:"✦";position:absolute;right:-8px;color:var(--rose)}
+  @keyframes slide{to{transform:translateX(-50%)}}
+
+  /* menu */
+  .menu{padding:80px 0 74px}
+  .menu-head{text-align:center;margin-bottom:44px}
+  .menu-head .eyebrow{font-size:12px;letter-spacing:.22em;color:var(--rose-deep);font-weight:700}
+  .menu-head h2{font-size:clamp(30px,4.6vw,44px);margin-top:8px}
+  .menu-head p{margin-top:10px;color:var(--mocha-soft)}
+  .pricesline{display:inline-block;background:var(--rose-pale);color:var(--mocha);border-radius:var(--r-pill);padding:7px 20px;font-size:14px;font-weight:700;margin-top:14px}
+  .menu-grid{display:grid;gap:40px;grid-template-columns:1fr 1fr}
+  .menu-group h3{display:flex;align-items:center;gap:12px;font-size:23px;margin-bottom:18px}
+  .menu-group h3::after{content:"";flex:1;height:1px;background:var(--rose-pale)}
+  .item{display:flex;align-items:baseline;gap:10px;padding:9px 0}
+  .item .t{font-weight:700;color:var(--mocha)}
+  .item .l{color:var(--mocha-soft);font-size:14.5px;flex:none}
+  .item .lead{flex:1;border-bottom:2px dotted #D8BCAE;transform:translateY(-4px)}
+  .item a{font-size:13.5px;font-weight:700;color:var(--rose-deep);text-decoration:none;white-space:nowrap}
+  .item a:hover{text-decoration:underline}
+  .menu-foot{text-align:center;margin-top:46px}
+
+  /* bridal band */
+  .band{background:var(--mocha);color:var(--cream);padding:78px 0;position:relative;overflow:hidden}
+  .band .bloom{position:absolute;width:340px;opacity:.14;pointer-events:none}
+  .band .wrap{position:relative;display:grid;grid-template-columns:1.2fr .8fr;gap:40px;align-items:center}
+  .band h2{color:var(--cream);font-size:clamp(30px,4.6vw,46px)}
+  .band h2 em{font-style:normal;color:var(--rose)}
+  .band p{color:#EAD3C6;max-width:52ch;margin-top:16px}
+  .band a{margin-top:26px}
+  .band .side{
+    font-family:'Fraunces',serif;font-size:88px;color:var(--rose);opacity:.35;
+    text-align:center;line-height:1;
+  }
+
+  /* proof */
+  .proof{padding:76px 0}
+  .proof .wrap{display:grid;grid-template-columns:1fr 1fr;gap:46px;align-items:center}
+  .pull{font-family:'Fraunces',serif;font-size:clamp(30px,4.4vw,42px);color:var(--mocha);line-height:1.25}
+  .pull::before{content:"“";color:var(--rose-deep)}
+  .pull::after{content:"”";color:var(--rose-deep)}
+  .who{margin-top:16px;color:var(--mocha-soft);font-size:15px}
+  .bigscore{text-align:center;background:#fff;border:1.5px solid var(--rose-pale);border-radius:26px 26px 26px 6px;padding:32px 26px;box-shadow:var(--shadow-warm);max-width:320px;justify-self:center;width:100%}
+  .bigscore .n{font-family:'Fraunces',serif;font-size:64px;font-weight:640;color:var(--mocha);line-height:1}
+  .bigscore .stars{font-size:22px;margin:10px 0 4px}
+  .bigscore small{color:var(--mocha-soft)}
+
+  /* steps */
+  .steps{background:var(--cream-deep);padding:76px 0}
+  .steps h2{text-align:center;font-size:clamp(30px,4.4vw,42px);margin-bottom:52px}
+  .steps-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:34px}
+  .step .n{
+    font-family:'Fraunces',serif;font-size:56px;color:var(--rose-deep);line-height:1;
+    border-bottom:2px solid var(--rose);display:inline-block;padding-bottom:6px;margin-bottom:14px;
+  }
+  .step h3{font-size:22px;margin-bottom:8px}
+  .step p{color:var(--mocha-soft);font-size:15.5px}
+
+  /* form */
+  .form{padding:80px 0}
+  .formbox{max-width:640px;margin:0 auto;background:#fff;border:1.5px solid var(--rose-pale);border-radius:26px 8px 26px 26px;padding:40px 34px;box-shadow:var(--shadow-warm)}
+  .formbox h2{font-size:clamp(26px,4vw,36px);margin-bottom:8px}
+  .formbox>p{color:var(--mocha-soft);margin-bottom:26px;font-size:15.5px}
+  .frow{margin-bottom:18px}
+  .frow label{display:block;font-weight:700;font-size:14.5px;margin-bottom:6px;color:var(--mocha)}
+  .frow input,.frow select,.frow textarea{
+    width:100%;min-height:48px;border:1.5px solid #DFC7BB;border-radius:14px;
+    padding:10px 14px;font:inherit;background:var(--cream);
+  }
+  .frow textarea{min-height:88px;resize:vertical}
+  .frow input:focus,.frow select:focus,.frow textarea:focus{outline:none;border-color:var(--rose-deep);box-shadow:0 0 0 3px rgba(185,106,106,.14)}
+  .frow .err{color:#A43030;font-size:13px;margin-top:5px;display:none}
+  .frow.bad input,.frow.bad select{border-color:#C05A4A}
+  .frow.bad .err{display:block}
+  .frow2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .formbox .pill{width:100%;margin-top:8px}
+  .formnote{text-align:center;font-size:13px;color:var(--mocha-soft);margin-top:14px}
+
+  /* visit */
+  .visit{background:var(--mocha-deep);color:var(--cream);padding:80px 0}
+  .visit .wrap{display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:center}
+  .visit h2{color:var(--cream);font-size:clamp(34px,5vw,50px)}
+  .visit .addr{font-family:'Fraunces',serif;font-size:clamp(24px,3.4vw,34px);color:var(--rose);line-height:1.3}
+  .visit dl{margin-top:26px;display:grid;gap:14px}
+  .visit .row{display:flex;gap:14px;align-items:flex-start}
+  .visit dt{font-weight:800;color:var(--rose);font-size:13px;letter-spacing:.12em;min-width:96px;padding-top:3px}
+  .visit dd{color:#F0E2D6;font-size:15.5px}
+  .visit dd a{color:var(--cream)}
+  .visit dd a.pill{margin-top:8px;display:inline-flex}
+  .mapart{border:1.5px solid rgba(217,154,154,.4);border-radius:26px 26px 26px 6px;overflow:hidden;box-shadow:0 24px 60px -20px rgba(0,0,0,.5)}
+
+  /* footer */
+  footer.site{background:var(--mocha-deep);color:#CBB4A6;border-top:1px solid rgba(217,154,154,.25);padding:44px 0 96px;text-align:center}
+  footer .mono{margin:0 auto 14px;width:56px;height:56px}
+  footer .fn{font-family:'Fraunces',serif;color:var(--cream);font-size:20px;font-weight:640}
+  footer .fc{margin-top:12px;font-size:15px}
+  footer .fc a{color:var(--rose);text-decoration:none}
+  footer .demoline{margin-top:22px;font-size:13px;color:#A08A7C;max-width:60ch;margin-inline:auto}
+
+  /* sticky whatsapp */
+  .fab{
+    position:fixed;bottom:18px;right:18px;z-index:80;
+    width:58px;height:58px;border-radius:50%;
+    background:#25D366;display:flex;align-items:center;justify-content:center;
+    box-shadow:0 12px 30px -8px rgba(0,0,0,.45);text-decoration:none;
+  }
+  .fab:hover{transform:scale(1.06)}
+
+  @media (max-width:900px){
+    .hero .wrap,.proof .wrap,.visit .wrap,.band .wrap{grid-template-columns:1fr}
+    .menu-grid,.steps-grid{grid-template-columns:1fr}
+    .hero{padding-top:40px}
+    .phone-zone{order:-1}
+    .bigscore{justify-self:start}
+    .band .side{display:none}
+    .lockup .name span{display:none}
+  }
+  @media (max-width:420px){
+    .frow2{grid-template-columns:1fr}
+    .hd .pill span{display:none}
+    .phone{width:260px}
+    .screen{height:430px}
+    .item .l{display:none}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .marquee .track{animation:none;flex-wrap:wrap;width:auto}
+    .rise{opacity:1!important;transform:none!important;transition:none!important}
+    .chat .msg{opacity:1;transform:none;transition:none}
+    .typing{display:none!important}
+    html{scroll-behavior:auto}
+  }
+</style>
+</head>
+<body>
+
+<div class="ribbon">Demo preview — made for Stylish Beauty Palour</div>
+
+<header class="site">
+  <div class="hd">
+    <a href="#top" class="lockup" aria-label="Stylish Beauty Palour home">
+      <svg class="mono" viewBox="0 0 64 64" aria-hidden="true">
+        <rect x="1.5" y="1.5" width="61" height="61" rx="16" fill="#4B3027"/>
+        <rect x="8" y="8" width="48" height="48" rx="9" fill="none" stroke="#D99A9A" stroke-width="2"/>
+        <text x="32" y="43" font-family="Georgia,serif" font-size="27" fill="#FFF6EE" text-anchor="middle">SB</text>
+        <circle cx="32" cy="12.5" r="1.8" fill="#D99A9A"/>
+        <circle cx="32" cy="51.5" r="1.8" fill="#D99A9A"/>
+      </svg>
+      <span class="name"><b>Stylish Beauty Palour</b><span>SANGHAR · SINDH</span></span>
+    </a>
+    <a class="pill rose" href="https://wa.me/923455565658?text=Assalam%20o%20Alaikum%2C%20I%20saw%20your%20website%20demo%20for%20Stylish%20Beauty%20Palour%20and%20would%20like%20to%20book%20an%20appointment." target="_blank" rel="noopener">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.3 14.1c-.2.6-1.2 1.2-1.7 1.2-.4.1-1 .1-1.6-.1-2.6-.9-4.3-2.5-5.7-4.7-.7-1-1.2-2.2-1-3.1.1-.6.6-1.4 1.1-1.6.3-.1.8-.1 1 .1.3.2.9 1.5 1 1.7.1.3 0 .5-.2.7l-.5.6c-.2.2-.2.4-.1.6.5.9 1.9 2.3 2.9 2.7.3.1.5.1.7-.1l.7-.8c.2-.2.4-.3.7-.2.3.1 1.6.8 1.8 1 .3.2.3.6.2 1Z"/></svg>
+      <span>Book on WhatsApp</span>
+    </a>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero">
+    <svg class="hero-art" viewBox="0 0 200 200" aria-hidden="true"><path d="M20 180 Q-30 100 60 60 Q150 20 190 80 Q220 150 120 190 Q60 210 20 180Z" fill="#B96A6A"/></svg>
+    <div class="wrap">
+      <div>
+        <h1 class="rise in">Stylish Beauty&nbsp;Palour, right here in Sanghar — book your slot in <em>one message</em>.</h1>
+        <p class="urdu rise in d2">خوبصورتی کا اپنا انداز — سنگھر میں</p>
+        <p class="sub rise in d2">See our services, our location and our timings, then send one WhatsApp message — that's the whole booking. No forms to hunt for, no waiting on the counter.</p>
+        <div class="ratingrow rise in d3" role="img" aria-label="Rated 5.0 out of 5 from 3 reviews on Google Maps">
+          <span class="num">5.0</span>
+          <span><span class="stars" aria-hidden="true">★★★★★</span><br><small>3 reviews on Google Maps</small></span>
+        </div>
+        <div class="ctarow rise in d4">
+          <a class="pill rose" href="https://wa.me/923455565658?text=Assalam%20o%20Alaikum%2C%20I%20saw%20your%20website%20demo%20for%20Stylish%20Beauty%20Palour%20and%20would%20like%20to%20book%20an%20appointment." target="_blank" rel="noopener">Book on WhatsApp</a>
+          <a class="pill ghost" href="tel:+923455565658">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.4.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.4 0 .8-.2 1l-2.3 2.2Z"/></svg>
+            Call now
+          </a>
+        </div>
+      </div>
+      <div class="phone-zone rise in d2">
+        <div class="phone" id="phone" role="link" tabindex="0" aria-label="Open WhatsApp chat with Stylish Beauty Palour">
+          <div class="screen">
+            <div class="contactstrip">Stylish Beauty Palour</div>
+            <div class="chatbar">
+              <svg class="mono" viewBox="0 0 64 64" aria-hidden="true">
+                <rect x="1.5" y="1.5" width="61" height="61" rx="16" fill="#D99A9A"/>
+                <text x="32" y="43" font-family="Georgia,serif" font-size="27" fill="#4B3027" text-anchor="middle">SB</text>
+              </svg>
+              <span>+92 345 5565658<br><small style="opacity:.7">online</small></span>
+            </div>
+            <div class="chat" id="chat">
+              <div class="msg in">Assalam o Alaikum, I saw your website demo for Stylish Beauty Palour and would like to book an appointment.<span class="t">10:04</span></div>
+              <div class="typing" id="typing" aria-hidden="true"><i></i><i></i><i></i></div>
+              <div class="msg out" id="reply">Assalam o Alaikum! We have received your request. We'll confirm your booking shortly.<span class="t">10:04</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee" aria-hidden="true">
+    <div class="track">
+      <span>Hair</span><span>Facials</span><span>Bridal Makeup</span><span>Threading</span><span>Mehendi</span><span>Hands &amp; Feet</span><span>Party Makeup</span><span>Skin Care</span>
+      <span>Hair</span><span>Facials</span><span>Bridal Makeup</span><span>Threading</span><span>Mehendi</span><span>Hands &amp; Feet</span><span>Party Makeup</span><span>Skin Care</span>
+    </div>
+  </div>
+
+  <!-- MENU -->
+  <section class="menu">
+    <div class="wrap">
+      <div class="menu-head">
+        <h2>Our services</h2>
+        <p>Everything on one card — send us the name of the service and we'll handle the rest.</p>
+        <span class="pricesline">Prices on WhatsApp</span>
+      </div>
+      <div class="menu-grid">
+        <div class="menu-group">
+          <h3>Hair</h3>
+          <div class="item"><span class="t">Cut &amp; styling</span><span class="l">Trims, blow-dry, sets</span><span class="lead"></span><a href="https://wa.me/923455565658?text=Assalam%20o%20Alaikum%2C%20I%20would%20like%20to%20book%20Hair%20Cut%20%26%20Styling%20at%20Stylish%20Beauty%20Palour." target="_blank" rel="noopener">Book</a></div>
+          <div class="item"><span class="t">Wash &amp; treatment</span><span class="l">Oil, masks, care</span><span class="lead"></span><a href="https://wa.me/923455565658?text=Assalam%20o%20Alaikum%2C%20I%20would%20like%20to%20book%20Wash%20%26%20Treatment%20at%20Stylish%20Beauty%20Palour." target="_blank" rel="noopener">Book</a></div>
+          <div class="item"><span class="t">Hair colour</span><span class="l">Roots or full length</span><span class="lead"></span><a href="https://wa.me/923455565658?text=Assalam%20o%20Alaikum%2C%20I%20would%20like%20to%20book%20Hair%20Colour%20at%20Stylish%20Beauty%20Palour." target="_blank" rel="noopener">Book</a></div>
+        </div>
+        <div class="menu-group">
+          <h3>Skin &amp; facials</h3>
+          <div class="item"><span class="t">Classic facial</span><span class="l">Cleanse to glow</span><span class="lead"></span><a href="https://wa.me/923455565658?text=Assalam%20o%20Alaikum%2C%20I%20would%20like%20to%20book%20a%20Classic%20Facial%20at%20Stylish%20Beauty%20Palour." target="_blank" rel="noopener">Book</a></div>
+          <div class="item"><span class="t">Clean-up</span><span class="l">Quick refresh</span><span class="lead"></span><a href="https://wa.me/923455565658?text=Assalam%20o%20Alaikum%2C%20I%20would%20like%20to%20book%20a%20Clean-up%20at%20Stylish%20Beauty%20Palour." target="_blank" rel="noopener">Book</a></div>
+          <div class="item"><span class="t">Whitening &amp; fruit facial</span><span class="l">Brightening care</span><span class="lead"></span><a href="https://wa.me/923455565658?text=Assalam%20o%20Alaikum%2C%20I%20would%20like%20to%20book%20a%20Whitening%2Ffruit%20facial%20at%20Stylish%20Beauty%20Palour." target="_blank" rel="noopener">Book</a></div>
+        </div>
+        <div class="menu-group">
+          <h3>Makeup &amp; bridal</h3>
+          <div class="item"><span class="t">Bridal makeup</span><span class="l">Your wedding day look</span><span class="lead"></span><a href="https://wa.me/923455565658?text=Assalam%20o%20Alaikum%2C%20I%20would%20like%20to%20book%20Bridal%20Makeup%20at%20Stylish%20Beauty%20Palour." target="_blank" rel="noopener">Book</a></div>
+          <div class="item"><span class="t">Party makeup</span><span class="l">Events and functions</span><span class="lead"></span><a href="https://wa.me/923455565658?text=Assalam%20o%20Alaikum%2C%20I%20would%20like%20to%20book%20Party%20Makeup%20at%20Stylish%20Beauty%20Palour." target="_blank" rel="noopener">Book</a></div>
+        </div>
+        <div class="menu-group">
+          <h3>Threading &amp; hands &amp; feet</h3>
+          <div class="item"><span class="t">Threading</span><span class="l">Eyebrows &amp; more</span><span class="lead"></span><a href="https://wa.me/923455565658?text=Assalam%20o%20Alaikum%2C%20I%20would%20like%20to%20book%20Threading%20at%20Stylish%20Beauty%20Palour." target="_blank" rel="noopener">Book</a></div>
+          <div class="item"><span class="t">Manicure &amp; pedicure</span><span class="l">Hands and feet care</span><span class="lead"></span><a href="https://wa.me/923455565658?text=Assalam%20o%20Alaikum%2C%20I%20would%20like%20to%20book%20a%20Manicure%2FPedicure%20at%20Stylish%20Beauty%20Palour." target="_blank" rel="noopener">Book</a></div>
+        </div>
+        <div class="menu-group">
+          <h3>Mehendi</h3>
+          <div class="item"><span class="t">Mehendi designs</span><span class="l">Occasions and events</span><span class="lead"></span><a href="https://wa.me/923455565658?text=Assalam%20o%20Alaikum%2C%20I%20would%20like%20to%20book%20Mehendi%20at%20Stylish%20Beauty%20Palour." target="_blank" rel="noopener">Book</a></div>
+        </div>
+      </div>
+      <div class="menu-foot">
+        <a class="pill" href="https://wa.me/923455565658?text=Assalam%20o%20Alaikum%2C%20I%20saw%20your%20website%20demo%20for%20Stylish%20Beauty%20Palour%20and%20would%20like%20to%20book%20an%20appointment." target="_blank" rel="noopener">Ask us for the price list</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- BRIDAL BAND -->
+  <section class="band">
+    <svg class="bloom" style="left:-90px;top:-70px" viewBox="0 0 200 200" aria-hidden="true"><path d="M100 10 Q140 60 180 70 Q130 100 120 150 Q70 120 30 130 Q40 70 20 40 Q70 50 100 10Z" fill="#D99A9A"/></svg>
+    <svg class="bloom" style="right:-110px;bottom:-90px" viewBox="0 0 200 200" aria-hidden="true"><circle cx="100" cy="100" r="90" fill="#B96A6A"/><circle cx="100" cy="100" r="55" fill="#D99A9A"/></svg>
+    <div class="wrap">
+      <div>
+        <h2>Bridal and Party Looks, <em>arranged over one chat</em></h2>
+        <p>Weddings and functions in Sanghar run on good dates and good plans. Send us your event date, ask about our bridal options, and sort the whole thing from your phone — before you even step into the parlour.</p>
+        <a class="pill rose" href="https://wa.me/923455565658?text=Assalam%20o%20Alaikum%2C%20I%20would%20like%20to%20ask%20about%20bridal%20dates%20at%20Stylish%20Beauty%20Palour." target="_blank" rel="noopener">Ask about bridal dates on WhatsApp</a>
+      </div>
+      <div class="side" aria-hidden="true">✦</div>
+    </div>
+  </section>
+
+  <!-- PROOF -->
+  <section class="proof">
+    <div class="wrap">
+      <div>
+        <blockquote class="pull">Excellent</blockquote>
+        <p class="who">— Ahmar, Google Maps review</p>
+      </div>
+      <div class="bigscore">
+        <div class="n">5.0</div>
+        <div class="stars" aria-hidden="true">★★★★★</div>
+        <small>from 3 Google Maps reviews</small>
+      </div>
+    </div>
+  </section>
+
+  <!-- STEPS -->
+  <section class="steps">
+    <div class="wrap" style="display:block;max-width:var(--maxw)">
+      <h2>Booking, in three steps</h2>
+      <div class="steps-grid">
+        <div class="step"><div class="n">1</div><h3>Message us on WhatsApp</h3><p>Tap any button on this page. Your message opens straight in WhatsApp.</p></div>
+        <div class="step"><div class="n">2</div><h3>Choose service and time</h3><p>Tell us what you'd like and when — we'll help you pick a slot.</p></div>
+        <div class="step"><div class="n">3</div><h3>Get your confirmation</h3><p>Your booking is confirmed right there in the chat. No phone tag needed.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BOOKING FORM -->
+  <section class="form" id="book">
+    <div class="formbox">
+      <h2>Send your booking</h2>
+      <p>Fill this in — it opens WhatsApp with your message ready to send.</p>
+      <form id="bookform" novalidate>
+        <div class="frow" id="f-name">
+          <label for="name">Your name</label>
+          <input id="name" name="name" type="text" autocomplete="name" required>
+          <p class="err">Please write your name so we know who's booking.</p>
+        </div>
+        <div class="frow frow2">
+          <div class="frow" id="f-day">
+            <label for="day">Preferred day</label>
+            <input id="day" name="day" type="date" required>
+            <p class="err">Please pick a day.</p>
+          </div>
+          <div class="frow" id="f-time">
+            <label for="time">Preferred time</label>
+            <input id="time" name="time" type="time" required>
+            <p class="err">Please pick a time.</p>
+          </div>
+        </div>
+        <div class="frow" id="f-service">
+          <label for="service">Service</label>
+          <select id="service" name="service" required>
+            <option value="">Choose a service…</option>
+            <optgroup label="Hair">
+              <option>Cut &amp; styling</option><option>Wash &amp; treatment</option><option>Hair colour</option>
+            </optgroup>
+            <optgroup label="Skin &amp; facials">
+              <option>Classic facial</option><option>Clean-up</option><option>Whitening &amp; fruit facial</option>
+            </optgroup>
+            <optgroup label="Makeup &amp; bridal">
+              <option>Bridal makeup</option><option>Party makeup</option>
+            </optgroup>
+            <optgroup label="Threading &amp; hands &amp; feet">
+              <option>Threading</option><option>Manicure &amp; pedicure</option>
+            </optgroup>
+            <optgroup label="Mehendi">
+              <option>Mehendi designs</option>
+            </optgroup>
+          </select>
+          <p class="err">Please choose a service.</p>
+        </div>
+        <div class="frow">
+          <label for="notes">Anything else? <span style="font-weight:400;color:var(--mocha-soft)">(optional)</span></label>
+          <textarea id="notes" name="notes" placeholder="For example, notes about your appointment…"></textarea>
+        </div>
+        <button class="pill rose" type="submit">Send booking on WhatsApp</button>
+        <p class="formnote">The message opens in WhatsApp — you send it yourself.</p>
+      </form>
+    </div>
+  </section>
+
+  <!-- VISIT -->
+  <section class="visit">
+    <div class="wrap">
+      <div>
+        <h2>Come visit us</h2>
+        <p class="addr" style="margin-top:18px">3W3W+HH, Sanghar,<br>Sindh, Pakistan</p>
+        <dl>
+          <div class="row"><dt>HOURS</dt><dd>Open 24 hours</dd></div>
+          <div class="row"><dt>PHONE</dt><dd><a href="tel:+923455565658">+92 345 5565658</a> — tap to call</dd></div>
+          <div class="row"><dt>FIND US</dt><dd>
+            <a class="pill ghost" style="border-color:var(--rose);color:var(--cream)" href="https://www.google.com/maps/search/?api=1&query=Stylish%20Beauty%20Palour%203W3W%2BHH%20Sanghar" target="_blank" rel="noopener">Open in Google Maps</a>
+          </dd></div>
+        </dl>
+      </div>
+      <div class="mapart" aria-hidden="true">
+        <svg viewBox="0 0 400 300" style="width:100%;background:#3A241C">
+          <rect width="400" height="300" fill="#3A241C"/>
+          <path d="M0 170 H400 M180 0 V300 M300 0 V190" stroke="#5A4237" stroke-width="14"/>
+          <path d="M180 170 H400" stroke="#5A4237" stroke-width="10"/>
+          <path d="M40 40 L120 120 M60 220 L140 260 M330 100 L380 60" stroke="#54403A" stroke-width="6"/>
+          <path d="M95 175 L200 175 L200 230" fill="none" stroke="#D99A9A" stroke-width="0" />
+          <path d="M95 175 Q150 160 175 178 L200 230" fill="none" stroke="none"/>
+          <circle cx="180" cy="175" r="26" fill="#D99A9A" opacity=".25"/>
+          <circle cx="180" cy="175" r="10" fill="#D99A9A"/>
+          <rect x="168" y="152" width="24" height="30" rx="10" fill="#FFF6EE" transform="translate(0,0)" opacity="0"/>
+          <path d="M180 160 c-6 0-9 4-9 8 0 6 6 9 9 15 3-6 9-9 9-15 0-4-3-8-9-8z" fill="#B96A6A" stroke="#FFF6EE" stroke-width="1.5"/>
+          <text x="180" y="140" font-family="Georgia,serif" font-size="15" fill="#FFF6EE" text-anchor="middle">Stylish Beauty Palour</text>
+          <text x="27" y="185" font-family="Georgia,serif" font-size="11" fill="#8A6E5F">3W3W+HH</text>
+        </svg>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site">
+  <svg class="mono" viewBox="0 0 64 64" aria-hidden="true">
+    <rect x="1.5" y="1.5" width="61" height="61" rx="16" fill="#4B3027"/>
+    <rect x="8" y="8" width="48" height="48" rx="9" fill="none" stroke="#D99A9A" stroke-width="2"/>
+    <text x="32" y="43" font-family="Georgia,serif" font-size="27" fill="#FFF6EE" text-anchor="middle">SB</text>
+  </svg>
+  <div class="fn">Stylish Beauty Palour</div>
+  <div class="fc">Sanghar, Sindh · <a href="tel:+923455565658">+92 345 5565658</a></div>
+  <p class="demoline">Demo preview. Final photos, services and timings will be set together with you.</p>
+</footer>
+
+<a class="fab" href="https://wa.me/923455565658?text=Assalam%20o%20Alaikum%2C%20I%20saw%20your%20website%20demo%20for%20Stylish%20Beauty%20Palour%20and%20would%20like%20to%20book%20an%20appointment." target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+  <svg width="30" height="30" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.3 14.1c-.2.6-1.2 1.2-1.7 1.2-.4.1-1 .1-1.6-.1-2.6-.9-4.3-2.5-5.7-4.7-.7-1-1.2-2.2-1-3.1.1-.6.6-1.4 1.1-1.6.3-.1.8-.1 1 .1.3.2.9 1.5 1 1.7.1.3 0 .5-.2.7l-.5.6c-.2.2-.2.4-.1.6.5.9 1.9 2.3 2.9 2.7.3.1.5.1.7-.1l.7-.8c.2-.2.4-.3.7-.2.3.1 1.6.8 1.8 1 .3.2.3.6.2 1Z"/></svg>
+</a>
+
+<script>
+(function(){
+  var phone=document.getElementById('phone');
+  var link='https://wa.me/923455565658?text='+encodeURIComponent('Assalam o Alaikum, I saw your website demo for Stylish Beauty Palour and would like to book an appointment.');
+  function go(){window.open(link,'_blank','noopener');}
+  phone.addEventListener('click',go);
+  phone.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();go();}});
+
+  var reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var msgs=document.querySelectorAll('.chat .msg');
+  var typing=document.getElementById('typing');
+
+  function play(){
+    var first=msgs[0],reply=msgs[1];
+    setTimeout(function(){first.classList.add('show');},500);
+    setTimeout(function(){typing.classList.add('show');},1400);
+    setTimeout(function(){typing.classList.remove('show');reply.classList.add('show');},3000);
+  }
+  if(reduced){
+    /* show the finished chat, fully rendered */
+    msgs.forEach(function(m){m.classList.add('show');typing.style.display='none';});
+  }else{
+    play();
+  }
+
+  /* gentle hero reveal already handled by .rise.in on load classes present */
+
+  /* form -> WhatsApp */
+  var form=document.getElementById('bookform');
+  function check(id){var f=document.getElementById(id);var ok=!!f.querySelector('input,select').value;f.classList.toggle('bad',!ok);return ok;}
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    var ok=['f-name','f-service','f-day','f-time'].every(function(id){return check(id);});
+    if(!ok){var firstBad=form.querySelector('.frow.bad input,.frow.bad select');if(firstBad)firstBad.focus();return;}
+    var name=document.getElementById('name').value.trim();
+    var svc=document.getElementById('service').value;
+    var day=document.getElementById('day').value;
+    var time=document.getElementById('time').value;
+    var notes=document.getElementById('notes').value.trim();
+    var msg='Assalam o Alaikum! My name is '+name+'. I would like to book '+svc+' at Stylish Beauty Palour on '+day+' at '+time+'.';
+    if(notes)msg+=' Note: '+notes+'.';
+    window.open('https://wa.me/923455565658?text='+encodeURIComponent(msg),'_blank','noopener');
+  });
+})();
+</script>
+</body>
+</html>
